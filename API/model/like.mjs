@@ -11,7 +11,13 @@ const LikeSchema = new Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:'user',
         required:true
+    },
+    iscommentLike:{
+        default:false,
+        type:Boolean,
+        required:false
     }
+
 },{timestamps:true})
 
 export default mongoose.model('like',LikeSchema);

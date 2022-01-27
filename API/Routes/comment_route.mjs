@@ -23,5 +23,15 @@ router
       .delete((req,res)=>{
             commentController.Deletecomment(req,res)
       })
+router
+      .route('/reply/:postid/:commentid')
+      .post((req,res)=>{
+            commentController.Replycomment(req,res)
+      })
+router
+      .route('/like/:postid/:commentid')
+      .post((req,res)=>{
+            commentController.LikeComment(req,res);
+      })
 
 export default router

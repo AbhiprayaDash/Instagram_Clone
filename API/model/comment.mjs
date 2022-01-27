@@ -17,6 +17,20 @@ const CommentSchema = new Schema({
         required:true,
         minlength:2,
         maxlength:500
+    },
+    reply:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'comment',
+        required:false
+    },
+    like:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'like',
+        required:false
+    }],
+    isreply:{
+        type:Boolean,
+        required:true
     }
 },{timestamps:true})
 
