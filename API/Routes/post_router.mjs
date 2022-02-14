@@ -19,7 +19,7 @@ router
         Postcontroller.getPost(req,res)
     })
 router
-    .route('/all')
+    .route('/all/:id')
     .get((req,res)=>{
         Postcontroller.getAllPosts(req,res)
     })

@@ -7,20 +7,16 @@ const FormSignUp = model => async (req,res)=>{
         const fullname = req.body.hasOwnProperty('fullname')?req.body.fullname:null;
         const username = req.body.hasOwnProperty('username')?req.body.username:null;
         const password = req.body.hasOwnProperty('password')?req.body.password:null;
-        console.log(emailaddr,fullname,username,password)
+        console.log(emailaddr,fullname,username,password,contactno)
         if(!emailaddr||!fullname||!username||!password)
         {
             return res.status(400).json("Invalid credentials");
         }
         const salt=await bcrypt.genSalt(10);
         const hashedpassword = await bcrypt.hash(req.body.password,salt);
-        if(contactno===null)
-        {
-            await model.create({email:emailaddr,fullname,username,password:hashedpassword});
-        }
-        else{
-            await model.create({Contactno:contactno,email:emailaddr,fullname,username,password:hashedpassword});
-        }
+        const userresult = await model.find({})
+        const response = await model.create({Contactno:contactno,email:emailaddr,fullname:fullname,username:username,password:hashedpassword});
+        console.log(response)
         return res.status(200).send('user created')
     }
     catch(error)

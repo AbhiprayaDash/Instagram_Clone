@@ -45,14 +45,21 @@ const editPosts = model =>async (req,res)=>{
         return res.status(500).json('Server Error')
     }
 }
-const getAllPosts = model =>async (req,res)=>{
+const getAllPosts = (model,followmodel) =>async (req,res)=>{
     try{
-        const result = model.find({});
-        return res.send(200).send(result)
+        const result = await followmodel.find({follower:req.params.id}).populate('followee').sort( [['_id', -1]] ).limit(20).exec();
+        const postres=[]
+        console.log(result)
+        for(var i=0;i<result.length;i++)
+        {
+            const userresult = await model.findOne({id:result[i].id});  
+            postres.push(userresult)
+        }
+        return res.status(200).json(postres)
     }
     catch(error)
     {
-        return res.send(500).json('server error')
+        return res.status(500).json('server error')
     }
 }
 const deletePost = model =>async(req,res)=>{
@@ -66,10 +73,10 @@ const deletePost = model =>async(req,res)=>{
         return res.send(500).json('server Error')
     }
 }
-export const PostcontrollerUtil = model =>({
+export const PostcontrollerUtil = (model,followmodel) =>({
     Addposts:Addposts(model),
     getPost:getPost(model),
     editPosts:editPosts(model),
-    getAllPosts:getAllPosts(model),
+    getAllPosts:getAllPosts(model,followmodel),
     deletePost:deletePost(model)
 })
